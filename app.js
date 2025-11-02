@@ -11,7 +11,7 @@ const langFrButton = document.querySelector('button#lang-fr');
 const langEnButton = document.querySelector('button#lang-en');
 const langEsButton = document.querySelector('button#lang-es');
 const langDeButton = document.querySelector('button#lang-de');
-const langButtons = document.querySelectorAll('dialog.lang-select > button');
+const langButtons = document.querySelectorAll('dialog.lang-select button');
 const langSettingButton = document.querySelector('button#lang-setting');
 
 const MODE_UNTIMED = 0;

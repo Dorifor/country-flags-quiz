@@ -110,7 +110,8 @@ main {
         color: grey;
         transition: all .2s;
 
-        &:hover, &:active {
+        &:hover,
+        &:active {
             color: black;
         }
     }
@@ -197,11 +198,14 @@ main {
 dialog.lang-select {
     border: none;
     border-radius: .5rem;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
     margin: auto;
     padding: 1rem 2rem;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
 
     button {
         background: white;
