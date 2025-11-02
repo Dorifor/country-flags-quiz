@@ -4,19 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Learn Flags</title>
 </head>
 
 <body>
     <main>
         <section id="flag-quiz">
-            <img id="flag-img" src="" alt="country flag-quiz" height="400">
-            <p id="answer"></p>
+            <div class="flag-container">
+                <img id="flag-img" src="" alt="country flag-quiz">
+            </div>
             <div class="choices">
                 <button id="choice-1" value="0">Choice 1</button>
                 <button id="choice-2" value="1">Choice 2</button>
                 <button id="choice-3" value="2">Choice 3</button>
                 <button id="choice-4" value="3">Choice 4</button>
+                <hr>
+                <button id="choice-next" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-arrow-right-icon lucide-arrow-right">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </button>
             </div>
         </section>
     </main>
