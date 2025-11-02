@@ -13,6 +13,32 @@ main {
     gap: 3rem;
 }
 
+.score {
+    display: flex;
+    justify-content: center;
+
+    span {
+        min-width: 2rem;
+        text-align: center;
+        padding: .5rem 1rem;
+        color: white;
+        font-family: monospace;
+        font-size: 1.2rem;
+    }
+
+    .good {
+        border-radius: .5rem 0 0 .5rem;
+        background: hsl(94, 98%, 40%);
+        border-right: 4px dotted black;
+    }
+
+    .bad {
+        border-radius: 0 .5rem .5rem 0;
+        background: hsl(0, 100%, 65%);
+        border-left: 4px dotted black;
+    }
+}
+
 #flag-quiz {
     width: 30%;
     max-width: 50vw;
@@ -69,7 +95,10 @@ img {
     &:not(:disabled, .correct, .wrong) {
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:focus-visible,
+        &:active {
             background: rgb(245, 245, 245);
             box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
         }
@@ -90,5 +119,13 @@ img {
     #flag-quiz {
         width: 90%;
         max-width: 90vw;
+    }
+
+    .flag-container {
+        height: 200px;
+
+        img {
+            max-height: 200px;
+        }
     }
 }

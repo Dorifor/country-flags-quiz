@@ -4,25 +4,28 @@ const choice2Button = document.querySelector('button#choice-2');
 const choice3Button = document.querySelector('button#choice-3');
 const choice4Button = document.querySelector('button#choice-4');
 const nextRoundButton = document.querySelector('button#choice-next');
+const badScoreLabel = document.querySelector('.score .bad');
+const goodScoreLabel = document.querySelector('.score .good');
 
 const MODE_UNTIMED = 0;
 const MODE_TIMED = 1;
 const MODE_REVERSED = 2;
 
-const options = {
+let options = {
     lang: 'fr'
 };
 
-const gameState = {
+let gameState = {
     round: 0,
-    score: 0,
+    good: 0,
+    bad: 0,
     hints: 0,
     consecutive: 0,
     skipped: [],
     mode: MODE_UNTIMED
 };
 
-const roundState = {
+let roundState = {
     answer: 0,
     userGuess: -1,
     countryName: '',
@@ -32,12 +35,13 @@ const roundState = {
 
 let countries;
 
-function initButtons() {
+function initElements() {
     choice1Button.addEventListener('click', selectAnswer);
     choice2Button.addEventListener('click', selectAnswer);
     choice3Button.addEventListener('click', selectAnswer);
     choice4Button.addEventListener('click', selectAnswer);
     nextRoundButton.addEventListener('click', round);
+    updateScoreLabels();
 }
 
 function getUserSelectedButton() {
@@ -93,12 +97,19 @@ function selectAnswer(e) {
 
     roundState.userGuess = parseInt(e.target.value);
     if (roundState.userGuess === roundState.answer) {
-        gameState.score++;
+        gameState.good++;
     } else {
+        gameState.bad++;
         getUserSelectedButton().classList.add('wrong');
     }
 
+    updateScoreLabels();
     getAnswerButton().classList.add('correct');
+}
+
+function updateScoreLabels() {
+    badScoreLabel.textContent = gameState.bad;
+    goodScoreLabel.textContent = gameState.good;
 }
 
 function getRandomCountry(countries, except = null) {
@@ -115,6 +126,15 @@ function updateQuizElements(countryToGuess, choices) {
     choice2Button.textContent = choices[1][1];
     choice3Button.textContent = choices[2][1];
     choice4Button.textContent = choices[3][1];
+}
+
+function saveLocalData() {
+    localStorage.setItem('save', JSON.stringify(gameState));
+}
+
+function loadLocalData() {
+    if (localStorage.getItem('save'))
+        gameState = JSON.parse(localStorage.getItem('save'));
 }
 
 function round() {
@@ -134,6 +154,7 @@ function round() {
         else
             roundState.choices.push(getRandomCountry(countries, country));
     }
+    saveLocalData();
     updateQuizElements(country, roundState.choices);
 }
 
@@ -144,5 +165,6 @@ async function main() {
     round();
 }
 
-initButtons();
+loadLocalData();
+initElements();
 main();
