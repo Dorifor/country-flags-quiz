@@ -6,14 +6,17 @@ const choice4Button = document.querySelector('button#choice-4');
 const nextRoundButton = document.querySelector('button#choice-next');
 const badScoreLabel = document.querySelector('.score .bad');
 const goodScoreLabel = document.querySelector('.score .good');
+const langSelectDialog = document.querySelector('dialog.lang-select');
+const langFrButton = document.querySelector('button#lang-fr');
+const langEnButton = document.querySelector('button#lang-en');
+const langEsButton = document.querySelector('button#lang-es');
+const langDeButton = document.querySelector('button#lang-de');
+const langButtons = document.querySelectorAll('dialog.lang-select > button');
+const langSettingButton = document.querySelector('button#lang-setting');
 
 const MODE_UNTIMED = 0;
 const MODE_TIMED = 1;
 const MODE_REVERSED = 2;
-
-let options = {
-    lang: 'fr'
-};
 
 let gameState = {
     round: 0,
@@ -22,7 +25,8 @@ let gameState = {
     hints: 0,
     consecutive: 0,
     skipped: [],
-    mode: MODE_UNTIMED
+    mode: MODE_UNTIMED,
+    lang: 'fr'
 };
 
 let roundState = {
@@ -40,8 +44,31 @@ function initElements() {
     choice2Button.addEventListener('click', selectAnswer);
     choice3Button.addEventListener('click', selectAnswer);
     choice4Button.addEventListener('click', selectAnswer);
+    langFrButton.addEventListener('click', selectLang);
+    langEnButton.addEventListener('click', selectLang);
+    langDeButton.addEventListener('click', selectLang);
+    langEsButton.addEventListener('click', selectLang);
     nextRoundButton.addEventListener('click', round);
+    langSettingButton.addEventListener('click', () => langSelectDialog.showModal());
     updateScoreLabels();
+    updateLangSelection();
+}
+
+function updateLangSelection() {
+    for (const button of langButtons) {
+        button.classList.remove('selected');
+        if (button.value == gameState.lang)
+            button.classList.add('selected');
+    }
+}
+
+function selectLang(e) {
+    const selectedLang = e.target.value;
+    gameState.lang = selectedLang;
+    roundState.locked = true;
+    updateLangSelection();
+    langSelectDialog.close();
+    main();
 }
 
 function getUserSelectedButton() {
@@ -142,7 +169,6 @@ function round() {
         return;
 
     gameState.round++;
-    resetQuizElements();
     const country = getRandomCountry(countries);
     roundState.choices = [];
     roundState.locked = false;
@@ -155,11 +181,12 @@ function round() {
             roundState.choices.push(getRandomCountry(countries, country));
     }
     saveLocalData();
+    resetQuizElements();
     updateQuizElements(country, roundState.choices);
 }
 
 async function main() {
-    const countriesListPath = `data/${options.lang}_country.json`;
+    const countriesListPath = `data/${gameState.lang}_country.json`;
     countries = await (await fetch(countriesListPath)).json();
     countries = Object.entries(countries);
     round();
