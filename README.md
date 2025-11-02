@@ -6,6 +6,12 @@ Frustrated of getting Poland, Monaco and Indonesia wrong every. single. time ?
 
 Look no further, get your hands dirty in this *never seen before* country flag quiz !
 
+Available in :
+- French
+- English
+- Spanish
+- German
+
 # Screenshots
 <img width="240" alt="Screenshot_20251102-235310" src="https://github.com/user-attachments/assets/00ad7ad9-c92e-4da5-aa0d-518be7163858" />
 
