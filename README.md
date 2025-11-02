@@ -7,7 +7,7 @@ Frustrated of getting Poland, Monaco and Indonesia wrong every. single. time ?
 Look no further, get your hands dirty in this *never seen before* country flag quiz !
 
 # Screenshots
-<img width="260" height="760" alt="Screenshot 2025-11-02 at 21-44-06 Learn Flags" src="https://github.com/user-attachments/assets/3e6a767d-f586-41d2-b00b-1ad05344c292" />
+<img width="240" alt="Screenshot_20251102-235310" src="https://github.com/user-attachments/assets/00ad7ad9-c92e-4da5-aa0d-518be7163858" />
 
 
 # Credits
