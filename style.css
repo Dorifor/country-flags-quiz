@@ -55,7 +55,6 @@ main {
 }
 
 img {
-    width: fit-content;
     height: fit-content;
     place-self: center;
     border-radius: 1rem;
