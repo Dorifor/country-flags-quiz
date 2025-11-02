@@ -60,7 +60,7 @@ function getRandomCountry(countries, except = null) {
 }
 
 function updateQuizElements(countryToGuess, choices) {
-    flagImageElement.src = `/flags/${countryToGuess[0].toLowerCase()}.webp`;
+    flagImageElement.src = `flags/${countryToGuess[0].toLowerCase()}.webp`;
     choice1Button.textContent = choices[0][1];
     choice2Button.textContent = choices[1][1];
     choice3Button.textContent = choices[2][1];
@@ -84,7 +84,7 @@ function round() {
 }
 
 async function main() {
-    const countriesListPath = `/data/${options.lang}_country.json`;
+    const countriesListPath = `data/${options.lang}_country.json`;
     countries = await (await fetch(countriesListPath)).json();
     countries = Object.entries(countries);
     round();
