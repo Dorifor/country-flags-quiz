@@ -124,8 +124,7 @@ header {
         color: grey;
         transition: all .2s;
 
-        &:hover,
-        &:active {
+        &:hover {
             color: var(--green);
         }
     }
