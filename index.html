@@ -6,28 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <title>Learn Flags</title>
+    <title>Country Flags Game</title>
 </head>
 
 <body>
     <main>
-        <section id="flag-quiz">
+        <header>
+            <button id="menu-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-menu-icon lucide-menu">
+                    <path d="M4 5h16" />
+                    <path d="M4 12h16" />
+                    <path d="M4 19h16" />
+                </svg>
+            </button>
             <div class="score">
                 <span class="good">0</span>
                 <span class="bad">0</span>
-                <button id="lang-setting">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-languages-icon lucide-languages">
-                        <path d="m5 8 6 6" />
-                        <path d="m4 14 6-6 2-3" />
-                        <path d="M2 5h12" />
-                        <path d="M7 2h1" />
-                        <path d="m22 22-5-10-5 10" />
-                        <path d="M14 18h6" />
-                    </svg>
-                </button>
             </div>
+            <button id="lang-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-languages-icon lucide-languages">
+                    <path d="m5 8 6 6" />
+                    <path d="m4 14 6-6 2-3" />
+                    <path d="M2 5h12" />
+                    <path d="M7 2h1" />
+                    <path d="m22 22-5-10-5 10" />
+                    <path d="M14 18h6" />
+                </svg>
+            </button>
+        </header>
+        <section id="game-panel">
             <div class="flag-container">
                 <img id="flag-img" src="" alt="country flag-quiz">
             </div>
@@ -47,17 +58,36 @@
                 </button>
             </div>
         </section>
+        <section id="lang-panel" class="hidden">
+            <div class="container">
+                <button id="lang-fr" value="fr"><img src="lang_flags/fr.webp"
+                        alt="french flag"><span>Français</span></button>
+                <button id="lang-de" value="de"><img src="lang_flags/de.webp"
+                        alt="german flag"><span>Deutsch</span></button>
+                <button id="lang-es" value="es"><img src="lang_flags/es.webp"
+                        alt="spanish flag"><span>Español</span></button>
+                <button id="lang-en" value="en"><img src="lang_flags/gb.webp"
+                        alt="england flag"><span>English</span></button>
+            </div>
+        </section>
+        <section id="menu-panel" class="hidden">
+            <h1>Country Flags Game</h1>
+            <p>Tired of missing precious seconds on Geoguessr ?</p>
+            <p>Frustrated of getting Poland, Monaco and Indonesia wrong every. single. time ?</p>
+
+            <p>Look no further, get your hands dirty in this <i>never seen before</i> country flag quiz !</p>
+            <h3>Credits</h3>
+            <ul>
+                <li><a href="https://github.com/Dorifor" target="_blank"><b>Mao / Dorifor</b></a> - Developer</li>
+                <li><a href="https://flagpedia.net/" target="_blank">flagpedia.net</a> - Flag images</li>
+                <li><a href="https://github.com/umpirsky/country-list" target="_blank">umpirsky/country-list</a> -
+                    Country lists in multiple languages</li>
+            </ul>
+            <hr>
+            <p>Source code available on <a href="https://github.com/Dorifor/country-flags-quiz" target="_blank">my
+                    Github</a>. Leave a star ⭐🙏!</p>
+        </section>
     </main>
-
-    <dialog class="lang-select">
-        <div class="container">
-            <button id="lang-fr" value="fr"><img src="lang_flags/fr.webp" alt="french flag"></button>
-            <button id="lang-de" value="de"><img src="lang_flags/de.webp" alt="german flag"></button>
-            <button id="lang-es" value="es"><img src="lang_flags/es.webp" alt="spanish flag"></button>
-            <button id="lang-en" value="en"><img src="lang_flags/gb.webp" alt="england flag"></button>
-        </div>
-    </dialog>
-
     <script src="app.js"></script>
 </body>
 

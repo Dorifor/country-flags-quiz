@@ -65,61 +65,73 @@ h6 {
     isolation: isolate;
 }
 
-main {
+:root {
+    --green: hsl(94, 98%, 40%);
+    --red: hsl(0, 100%, 65%);
+}
+
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
-    gap: 3rem;
 }
 
-.score {
+main {
+    margin-top: 1rem;
     display: flex;
-    justify-content: center;
-    position: relative;
+    flex-direction: column;
+    gap: 3rem;
+    width: 30%;
+    max-width: 50vw;
+}
 
-    span {
-        min-width: 2rem;
-        text-align: center;
-        padding: .5rem 1rem;
-        color: white;
-        font-family: monospace;
-        font-size: 1.2rem;
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .score {
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        span {
+            min-width: 2rem;
+            text-align: center;
+            padding: .5rem 1rem;
+            color: white;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+
+        .good {
+            border-radius: .5rem 0 0 .5rem;
+            background: var(--green);
+            border-right: 4px dotted black;
+        }
+
+        .bad {
+            border-radius: 0 .5rem .5rem 0;
+            background: var(--red);
+            border-left: 4px dotted black;
+        }
     }
 
-    .good {
-        border-radius: .5rem 0 0 .5rem;
-        background: hsl(94, 98%, 40%);
-        border-right: 4px dotted black;
-    }
-
-    .bad {
-        border-radius: 0 .5rem .5rem 0;
-        background: hsl(0, 100%, 65%);
-        border-left: 4px dotted black;
-    }
-
-    #lang-setting {
-        position: absolute;
-        right: 0;
+    button {
         border: none;
-        top: 0;
-        bottom: 0;
         background: none;
         color: grey;
         transition: all .2s;
 
         &:hover,
         &:active {
-            color: black;
+            color: var(--green);
         }
     }
 }
 
-#flag-quiz {
-    width: 30%;
-    max-width: 50vw;
+main > section {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -161,7 +173,7 @@ main {
     }
 }
 
-.choices button {
+section button {
     padding: .5rem 2rem;
     background: white;
     border: 1px solid rgb(209, 209, 209);
@@ -185,22 +197,17 @@ main {
     }
 
     &.correct {
-        background: hsl(94, 98%, 40%);
+        background: var(--green);
         color: white;
     }
 
     &.wrong {
-        background: hsl(0, 100%, 65%);
+        background: var(--red);
         color: white;
     }
 }
 
-dialog.lang-select {
-    border: none;
-    border-radius: .5rem;
-    margin: auto;
-    padding: 1rem 2rem;
-
+#lang-panel {
     .container {
         display: flex;
         flex-direction: column;
@@ -209,34 +216,53 @@ dialog.lang-select {
 
     button {
         background: white;
-        border: none;
-        width: 4rem;
         position: relative;
+        display: flex;
+        padding: .5rem 1rem;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
 
         &.selected {
-            border: 1px solid hsla(94, 98%, 40%, .8);
-            border-radius: .2rem;
-            z-index: 2;
+            /* border: 1px solid hsla(94, 98%, 40%, .8); */
+            border: none;
+            box-shadow: none;
             top: 0;
             left: 0;
             inset: 0;
-            background: hsla(94, 98%, 40%, .2);
+            color: white;
+            background: var(--green);
         }
 
         img {
-            padding: .2rem;
-            height: 100%;
-            pointer-events: none;
+            width: 10%;
         }
     }
+}
 
+.hidden {
+    display: none !important;
+}
 
+button.toggled {
+    color: var(--green);
+}
+
+#menu-panel {
+    h1 {
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 800px) {
-    #flag-quiz {
+
+    main {
         width: 90%;
         max-width: 90vw;
+    }
+
+    #lang-select button>img {
+        width: 20%;
     }
 
     .flag-container {

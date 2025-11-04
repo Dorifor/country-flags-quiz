@@ -6,17 +6,20 @@ const choice4Button = document.querySelector('button#choice-4');
 const nextRoundButton = document.querySelector('button#choice-next');
 const badScoreLabel = document.querySelector('.score .bad');
 const goodScoreLabel = document.querySelector('.score .good');
-const langSelectDialog = document.querySelector('dialog.lang-select');
-const langFrButton = document.querySelector('button#lang-fr');
-const langEnButton = document.querySelector('button#lang-en');
-const langEsButton = document.querySelector('button#lang-es');
-const langDeButton = document.querySelector('button#lang-de');
-const langButtons = document.querySelectorAll('dialog.lang-select button');
-const langSettingButton = document.querySelector('button#lang-setting');
+const langButtons = document.querySelectorAll('#lang-panel button');
+const langToggle = document.querySelector('button#lang-toggle');
+const menuToggle = document.querySelector('button#menu-toggle');
+const gamePanel = document.querySelector('#game-panel');
+const langPanel = document.querySelector('#lang-panel');
+const menuPanel = document.querySelector('#menu-panel');
 
 const MODE_UNTIMED = 0;
 const MODE_TIMED = 1;
 const MODE_REVERSED = 2;
+
+const PANEL_MENU = 0;
+const PANEL_LANG = 1;
+const PANEL_GAME = 2;
 
 let gameState = {
     round: 0,
@@ -26,7 +29,8 @@ let gameState = {
     consecutive: 0,
     skipped: [],
     mode: MODE_UNTIMED,
-    lang: 'fr'
+    lang: 'fr',
+    currentPanel: PANEL_GAME
 };
 
 let roundState = {
@@ -44,15 +48,48 @@ function initElements() {
     choice2Button.addEventListener('click', selectAnswer);
     choice3Button.addEventListener('click', selectAnswer);
     choice4Button.addEventListener('click', selectAnswer);
-    langFrButton.addEventListener('click', selectLang);
-    langEnButton.addEventListener('click', selectLang);
-    langDeButton.addEventListener('click', selectLang);
-    langEsButton.addEventListener('click', selectLang);
+    for (const button of langButtons) {
+        button.addEventListener('click', selectLang);
+    }
     nextRoundButton.addEventListener('click', round);
     document.addEventListener('keydown', processUserInput);
-    langSettingButton.addEventListener('click', () => langSelectDialog.showModal());
+    menuToggle.addEventListener('click', () => togglePanel(PANEL_MENU));
+    langToggle.addEventListener('click', () => togglePanel(PANEL_LANG));
     updateScoreLabels();
     updateLangSelection();
+}
+
+function togglePanel(panel) {
+    if (panel === gameState.currentPanel)
+        gameState.currentPanel = PANEL_GAME;
+    else
+        gameState.currentPanel = panel;
+
+    updatePanelsVisibility();
+}
+
+function updatePanelsVisibility() {
+    gamePanel.classList.add('hidden');
+    menuPanel.classList.add('hidden');
+    langPanel.classList.add('hidden');
+    menuToggle.classList.remove('toggled');
+    langToggle.classList.remove('toggled');
+
+    switch (gameState.currentPanel) {
+        case PANEL_GAME:
+            gamePanel.classList.remove('hidden');
+            break;
+
+        case PANEL_LANG:
+            langPanel.classList.remove('hidden');
+            langToggle.classList.add('toggled');
+            break;
+
+        case PANEL_MENU:
+            menuPanel.classList.remove('hidden');
+            menuToggle.classList.add('toggled');
+            break;
+    }
 }
 
 /**
@@ -84,12 +121,12 @@ function updateLangSelection() {
 }
 
 function selectLang(e) {
-    const selectedLang = e.target.value;
+    const selectedLang = e.currentTarget.value;
     gameState.lang = selectedLang;
     roundState.locked = true;
     updateLangSelection();
-    langSelectDialog.close();
     main();
+    togglePanel(PANEL_LANG);
 }
 
 function getUserSelectedButton() {
@@ -143,7 +180,7 @@ function selectAnswer(e) {
     roundState.locked = true;
     nextRoundButton.disabled = false;
 
-    roundState.userGuess = parseInt(e.target.value);
+    roundState.userGuess = parseInt(e.currentTarget.value);
     if (roundState.userGuess === roundState.answer) {
         gameState.good++;
     } else {
