@@ -180,9 +180,10 @@ function round() {
         else
             roundState.choices.push(getRandomCountry(countries, country));
     }
-    saveLocalData();
     resetQuizElements();
     updateQuizElements(country, roundState.choices);
+    saveLocalData();
+    console.log(roundState);
 }
 
 async function main() {
