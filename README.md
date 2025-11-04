@@ -13,7 +13,8 @@ Available in :
 - German
 
 # Screenshots
-<img width="240" alt="Screenshot_20251102-235310" src="https://github.com/user-attachments/assets/00ad7ad9-c92e-4da5-aa0d-518be7163858" />
+<img width="340" alt="Screenshot_20251105-000602" src="https://github.com/user-attachments/assets/cd535845-d010-460f-86c9-a849a82074c1" />
+
 
 
 # Credits
