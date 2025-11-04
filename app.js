@@ -49,9 +49,30 @@ function initElements() {
     langDeButton.addEventListener('click', selectLang);
     langEsButton.addEventListener('click', selectLang);
     nextRoundButton.addEventListener('click', round);
+    document.addEventListener('keydown', processUserInput);
     langSettingButton.addEventListener('click', () => langSelectDialog.showModal());
     updateScoreLabels();
     updateLangSelection();
+}
+
+/**
+ * 
+ * @param {KeyboardEvent} e 
+ */
+function processUserInput(e) {
+    if (e.repeat)
+        return;
+
+    if (e.key == "1")
+        choice1Button.click();
+    if (e.key == "2")
+        choice2Button.click();
+    if (e.key == "3")
+        choice3Button.click();
+    if (e.key == "4")
+        choice4Button.click();
+    if (e.key == "Enter")
+        nextRoundButton.click();
 }
 
 function updateLangSelection() {
@@ -141,7 +162,7 @@ function updateScoreLabels() {
 
 function getRandomCountry(countries, except = null) {
     const random = countries[Math.ceil(countries.length * Math.random())]
-    if (random == except || roundState.choices.includes(random))
+    if (random == undefined || random == null || random == except || roundState.choices.includes(random))
         return getRandomCountry(countries, except);
 
     return random;
@@ -183,7 +204,6 @@ function round() {
     resetQuizElements();
     updateQuizElements(country, roundState.choices);
     saveLocalData();
-    console.log(roundState);
 }
 
 async function main() {
