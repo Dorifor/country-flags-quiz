@@ -21,7 +21,11 @@ const PANEL_MENU = 0;
 const PANEL_LANG = 1;
 const PANEL_GAME = 2;
 
+/**
+ * @param { number } _version
+ */
 let gameState = {
+    _version: 1,
     round: 0,
     good: 0,
     bad: 0,
@@ -30,6 +34,8 @@ let gameState = {
     skipped: [],
     mode: MODE_UNTIMED,
     lang: 'fr',
+    recent: [],
+    errors: {},
     currentPanel: PANEL_GAME
 };
 
@@ -92,6 +98,10 @@ function updatePanelsVisibility() {
     }
 }
 
+function isChoiceButtonsFocused() {
+    return [choice1Button, choice2Button, choice3Button, choice4Button].includes(document.activeElement);
+}
+
 /**
  * 
  * @param {KeyboardEvent} e 
@@ -108,7 +118,7 @@ function processUserInput(e) {
         choice3Button.click();
     if (e.key == "4")
         choice4Button.click();
-    if (e.key == "Enter")
+    if (e.key == "Enter" && !isChoiceButtonsFocused())
         nextRoundButton.click();
 }
 
@@ -199,7 +209,7 @@ function updateScoreLabels() {
 
 function getRandomCountry(countries, except = null) {
     const random = countries[Math.ceil(countries.length * Math.random())]
-    if (random == undefined || random == null || random == except || roundState.choices.includes(random))
+    if (random == undefined || random == null || random == except || roundState.choices.includes(random) || gameState.recent.includes(random[0]))
         return getRandomCountry(countries, except);
 
     return random;
@@ -218,8 +228,21 @@ function saveLocalData() {
 }
 
 function loadLocalData() {
-    if (localStorage.getItem('save'))
-        gameState = JSON.parse(localStorage.getItem('save'));
+    if (localStorage.getItem('save')) {
+        let saved = JSON.parse(localStorage.getItem('save'));
+        if (saved._version == gameState._version) {
+            gameState = saved;
+        } else if (saved.good != undefined && saved.bad != undefined) {
+            gameState.good = saved.good;
+            gameState.bad = saved.bad;
+        }
+    }
+}
+
+function addToRecent(country) {
+    gameState.recent.push(country[0]);
+    if (gameState.recent.length > 50)
+        gameState.recent.shift();
 }
 
 function round() {
@@ -228,6 +251,7 @@ function round() {
 
     gameState.round++;
     const country = getRandomCountry(countries);
+    addToRecent(country);
     roundState.choices = [];
     roundState.locked = false;
     roundState.answer = Math.floor(Math.random() * 4);

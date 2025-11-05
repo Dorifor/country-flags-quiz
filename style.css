@@ -67,7 +67,8 @@ h6 {
 
 :root {
     --green: hsl(94, 98%, 40%);
-    --red: hsl(0, 100%, 65%);
+    --green: hsl(94, 98%, 32%);
+    --red: hsl(357, 84%, 56%);
 }
 
 body {
@@ -179,8 +180,9 @@ section button {
     border-radius: .5rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 1rem;
-    transition: all .2s;
+    transition: background .2s, color .2s;
     display: flex;
+    letter-spacing: 0.15cap;
     justify-content: center;
 
     &:not(:disabled, .correct, .wrong) {
@@ -253,8 +255,14 @@ button.toggled {
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
+    main {
+        width: 60%;
+        max-width: 60vw;
+    }
+}
 
+@media screen and (max-width: 600px) {
     main {
         width: 90%;
         max-width: 90vw;
