@@ -1,9 +1,3 @@
-const flagImageElement = document.querySelector('img#flag-img');
-const choice1Button = document.querySelector('button#choice-1');
-const choice2Button = document.querySelector('button#choice-2');
-const choice3Button = document.querySelector('button#choice-3');
-const choice4Button = document.querySelector('button#choice-4');
-const nextRoundButton = document.querySelector('button#choice-next');
 const badScoreLabel = document.querySelector('.score .bad');
 const goodScoreLabel = document.querySelector('.score .good');
 const langButtons = document.querySelectorAll('#lang-panel button');
@@ -50,14 +44,9 @@ let roundState = {
 let countries;
 
 function initElements() {
-    choice1Button.addEventListener('click', selectAnswer);
-    choice2Button.addEventListener('click', selectAnswer);
-    choice3Button.addEventListener('click', selectAnswer);
-    choice4Button.addEventListener('click', selectAnswer);
     for (const button of langButtons) {
         button.addEventListener('click', selectLang);
     }
-    nextRoundButton.addEventListener('click', round);
     document.addEventListener('keydown', processUserInput);
     menuToggle.addEventListener('click', () => togglePanel(PANEL_MENU));
     langToggle.addEventListener('click', () => togglePanel(PANEL_LANG));
@@ -98,30 +87,6 @@ function updatePanelsVisibility() {
     }
 }
 
-function isChoiceButtonsFocused() {
-    return [choice1Button, choice2Button, choice3Button, choice4Button].includes(document.activeElement);
-}
-
-/**
- * 
- * @param {KeyboardEvent} e 
- */
-function processUserInput(e) {
-    if (e.repeat)
-        return;
-
-    if (e.key == "1")
-        choice1Button.click();
-    if (e.key == "2")
-        choice2Button.click();
-    if (e.key == "3")
-        choice3Button.click();
-    if (e.key == "4")
-        choice4Button.click();
-    if (e.key == "Enter" && !isChoiceButtonsFocused())
-        nextRoundButton.click();
-}
-
 function updateLangSelection() {
     for (const button of langButtons) {
         button.classList.remove('selected');
@@ -139,70 +104,8 @@ function selectLang(e) {
     togglePanel(PANEL_LANG);
 }
 
-function getUserSelectedButton() {
-    switch (roundState.userGuess) {
-        case 0:
-            return choice1Button;
-
-        case 1:
-            return choice2Button;
-
-        case 2:
-            return choice3Button;
-
-        case 3:
-            return choice4Button;
-    }
-}
-
-function getAnswerButton() {
-    switch (roundState.answer) {
-        case 0:
-            return choice1Button;
-
-        case 1:
-            return choice2Button;
-
-        case 2:
-            return choice3Button;
-
-        case 3:
-            return choice4Button;
-    }
-}
-
-function resetQuizElements() {
-    nextRoundButton.disabled = true;
-    choice1Button.classList.remove('wrong');
-    choice1Button.classList.remove('correct');
-    choice2Button.classList.remove('wrong');
-    choice2Button.classList.remove('correct');
-    choice3Button.classList.remove('wrong');
-    choice3Button.classList.remove('correct');
-    choice4Button.classList.remove('wrong');
-    choice4Button.classList.remove('correct');
-}
-
-function selectAnswer(e) {
-    if (roundState.locked)
-        return;
-
-    roundState.locked = true;
-    nextRoundButton.disabled = false;
-
-    roundState.userGuess = parseInt(e.currentTarget.value);
-    if (roundState.userGuess === roundState.answer) {
-        gameState.good++;
-    } else {
-        gameState.bad++;
-        getUserSelectedButton().classList.add('wrong');
-    }
-
-    updateScoreLabels();
-    getAnswerButton().classList.add('correct');
-}
-
 function updateScoreLabels() {
+    // TODO: get score from current GameMode
     badScoreLabel.textContent = gameState.bad;
     goodScoreLabel.textContent = gameState.good;
 }
@@ -215,65 +118,8 @@ function getRandomCountry(countries, except = null) {
     return random;
 }
 
-function updateQuizElements(countryToGuess, choices) {
-    flagImageElement.src = `flags/${countryToGuess[0].toLowerCase()}.webp`;
-    choice1Button.textContent = choices[0][1];
-    choice2Button.textContent = choices[1][1];
-    choice3Button.textContent = choices[2][1];
-    choice4Button.textContent = choices[3][1];
-}
-
-function saveLocalData() {
-    localStorage.setItem('save', JSON.stringify(gameState));
-}
-
-function loadLocalData() {
-    if (localStorage.getItem('save')) {
-        let saved = JSON.parse(localStorage.getItem('save'));
-        if (saved._version == gameState._version) {
-            gameState = saved;
-        } else if (saved.good != undefined && saved.bad != undefined) {
-            gameState.good = saved.good;
-            gameState.bad = saved.bad;
-        }
-    }
-}
-
-function addToRecent(country) {
-    gameState.recent.push(country[0]);
-    if (gameState.recent.length > 50)
-        gameState.recent.shift();
-}
-
-function round() {
-    if (!roundState.locked)
-        return;
-
-    gameState.round++;
-    const country = getRandomCountry(countries);
-    addToRecent(country);
-    roundState.choices = [];
-    roundState.locked = false;
-    roundState.answer = Math.floor(Math.random() * 4);
-    roundState.countryName = country[1];
-    for (let i = 0; i < 4; i++) {
-        if (i === roundState.answer)
-            roundState.choices.push(country);
-        else
-            roundState.choices.push(getRandomCountry(countries, country));
-    }
-    resetQuizElements();
-    updateQuizElements(country, roundState.choices);
-    saveLocalData();
-}
-
 async function main() {
     const countriesListPath = `data/${gameState.lang}_country.json`;
     countries = await (await fetch(countriesListPath)).json();
     countries = Object.entries(countries);
-    round();
 }
-
-loadLocalData();
-initElements();
-main();
