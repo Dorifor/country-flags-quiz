@@ -174,6 +174,7 @@ main > section {
 }
 
 section button {
+    --answer-pad: 2rem;
     padding: .5rem 2rem;
     background: white;
     border: 1px solid rgb(209, 209, 209);
@@ -198,13 +199,15 @@ section button {
     }
 
     &.correct {
-        background: var(--green);
-        color: white;
+        border: 1px solid var(--green);
+        border-left: var(--answer-pad) solid var(--green);
+        padding-left: calc(1rem - var(--answer-pad));
     }
 
     &.wrong {
-        background: var(--red);
-        color: white;
+        border: 1px solid var(--red);
+        border-left: var(--answer-pad) solid var(--red);
+        padding-left: calc(1rem - var(--answer-pad));
     }
 }
 
