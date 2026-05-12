@@ -267,6 +267,10 @@ function round() {
     saveLocalData();
 }
 
+flagImageElement.addEventListener('click', e => {
+    choice1Button.parentElement.classList.toggle('hidden');
+})
+
 async function main() {
     const countriesListPath = `data/${gameState.lang}_country.json`;
     countries = await (await fetch(countriesListPath)).json();
